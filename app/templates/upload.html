@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Image Search{% endblock %}
+
+{% block content %}
+<h2>Search by Image</h2>
+
+<form action="/upload-image" method="post" enctype="multipart/form-data" class="mb-4">
+    <div class="mb-3">
+        <label for="file" class="form-label">Upload an image of food (e.g. pasta, ice cream):</label>
+        <input type="file" class="form-control" name="file" accept="image/*" required>
+    </div>  
+
+    <div class="row mb-3">
+    <div class="col-md-6">
+        <label for="country_code" class="form-label">Country Code</label>
+        <input type="number" class="form-control" name="country_code" value="{{ country_code or '' }}">
+    </div>
+    <div class="col-md-6">
+        <label for="max_cost" class="form-label">Max Cost for Two</label>
+        <input type="number" class="form-control" name="max_cost" value="{{ max_cost or '' }}">
+    </div>
+</div>
+
+    <button type="submit" class="btn btn-primary">Find Matching Restaurants</button>
+</form>
+
+{% if matches %}
+    <h4>Top Matched Cuisines:</h4>
+    <ul>
+        {% for match in matches %}
+        <li><strong>{{ match.cuisine }}</strong> — score: {{ match.score }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if restaurants %}
+    <h4 class="mt-4">Recommended Restaurants:</h4>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for restaurant in restaurants %}
+        <div class="col">
+            <div class="card h-100 shadow">
+                <div class="card-body">
+                    <h5 class="card-title">{{ restaurant.name }}</h5>
+                    <p class="card-text"><strong>Cuisines:</strong> {{ restaurant.cuisines }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ restaurant.locality }}, {{ restaurant.city }}</p>
+                    <a href="/restaurant/{{ restaurant.id }}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

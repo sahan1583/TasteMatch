@@ -4,7 +4,7 @@ venv/
 
 
 app/__pycache__/
-
+app/utils/__pycache__/
 
 data/cuisine_embeddings.pt
 *.db 

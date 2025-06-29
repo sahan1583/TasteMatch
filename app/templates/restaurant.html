@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{{ restaurant.name }}{% endblock %}
+
+{% block content %}
+<div class="card shadow">
+    <div class="card-body">
+        <h2 class="card-title">{{ restaurant.name }}</h2>
+        <p><strong>Address:</strong> {{ restaurant.address }}, {{ restaurant.locality }}, {{ restaurant.city }}</p>
+        <p><strong>Cuisines:</strong> {{ restaurant.cuisines }}</p>
+        <p><strong>Average Cost for Two:</strong> {{ restaurant.average_cost_for_two }} {{ restaurant.currency }}</p>
+        <p><strong>Has Online Delivery:</strong> {{ "Yes" if restaurant.has_online_delivery else "No" }}</p>
+        <p><strong>Has Table Booking:</strong> {{ "Yes" if restaurant.has_table_booking else "No" }}</p>
+        <p><strong>Rating:</strong> {{ restaurant.rating }} ({{ restaurant.votes }} votes)</p>
+    </div>
+</div>
+
+<a href="/" class="btn btn-secondary mt-3">← Back to List</a>
+{% endblock %}

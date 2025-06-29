@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<h2>Search Results for "{{ query }}"</h2>
+
+{% if restaurants %}
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for restaurant in restaurants %}
+    <div class="col">
+        <div class="card h-100 shadow">
+            <div class="card-body">
+                <h5 class="card-title">{{ restaurant.name }}</h5>
+                <p class="card-text"><strong>Cuisines:</strong> {{ restaurant.cuisines }}</p>
+                <p class="card-text"><strong>Location:</strong> {{ restaurant.locality }}, {{ restaurant.city }}</p>
+                <a href="/restaurant/{{ restaurant.id }}" class="btn btn-primary">View</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination Controls -->
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+      {% if offset >= limit %}
+      <li class="page-item">
+        <a class="page-link" href="?{{ request.query_params._dict | urlencode }}&offset={{ offset - limit }}&limit={{ limit }}">Previous</a>
+      </li>
+      {% endif %}
+      <li class="page-item">
+        <a class="page-link" href="?{{ request.query_params._dict | urlencode }}&offset={{ offset + limit }}&limit={{ limit }}">Next</a>
+      </li>
+    </ul>
+</nav>
+  
+{% else %}
+<p>No matching restaurants found.</p>
+{% endif %}
+
+<a href="/" class="btn btn-outline-secondary mt-4">← Back to Home</a>
+{% endblock %}

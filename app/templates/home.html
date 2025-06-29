@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Restaurant List{% endblock %}
+
+{% block content %}
+<h2>Restaurants</h2>
+
+<form method="get" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <input type="number" name="country_code" class="form-control" placeholder="Country Code" value="{{ country_code or '' }}">
+    </div>
+    <div class="col-md-3">
+        <input type="number" name="max_cost" class="form-control" placeholder="Max Cost for Two" value="{{ max_cost or '' }}">
+    </div>
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+    </div>
+</form>
+
+
+{% if restaurants %}
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for restaurant in restaurants %}
+    <div class="col">
+        <div class="card h-100 shadow">
+            <div class="card-body">
+                <h5 class="card-title">{{ restaurant.name }}</h5>
+                <p class="card-text"><strong>Cuisines:</strong> {{ restaurant.cuisines }}</p>
+                <p class="card-text"><strong>Location:</strong> {{ restaurant.locality }}, {{ restaurant.city }}</p>
+                <a href="/restaurant/{{ restaurant.id }}" class="btn btn-primary">View</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+<nav class="mt-4">
+  <ul class="pagination justify-content-center">
+    {% if offset >= limit %}
+    <li class="page-item">
+      <a class="page-link" href="/?offset={{ offset - limit }}&limit={{ limit }}">Previous</a>
+    </li>
+    {% endif %}
+    <li class="page-item">
+      <a class="page-link" href="/?offset={{ offset + limit }}&limit={{ limit }}">Next</a>
+    </li>
+  </ul>
+</nav>
+
+{% else %}
+<p>No restaurants found.</p>
+{% endif %}
+{% endblock %}

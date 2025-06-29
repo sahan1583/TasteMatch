@@ -10,16 +10,23 @@ def get_restaurant_by_id(db: Session, restaurant_id: int):
 def get_restaurants(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.Restaurant).offset(skip).limit(limit).all()
 
-def get_restaurants_nearby(db: Session, lat: float, lon: float, radius_km: float) -> List[models.Restaurant]:
+def get_restaurants_nearby(
+    db: Session,
+    lat: float,
+    lon: float,
+    radius_km: float,
+    offset: int = 0,
+    limit: int = 10
+) -> List[models.Restaurant]:
     all_restaurants = db.query(models.Restaurant).all()
     result = []
 
     def haversine(lat1, lon1, lat2, lon2):
-        R = 6371
+        R = 6371  # Earth radius in kilometers
         phi1, phi2 = radians(lat1), radians(lat2)
         d_phi = radians(lat2 - lat1)
         d_lambda = radians(lon2 - lon1)
-        a = sin(d_phi/2)**2 + cos(phi1)*cos(phi2)*sin(d_lambda/2)**2
+        a = sin(d_phi / 2)**2 + cos(phi1) * cos(phi2) * sin(d_lambda / 2)**2
         c = 2 * atan2(sqrt(a), sqrt(1 - a))
         return R * c
 
@@ -30,7 +37,8 @@ def get_restaurants_nearby(db: Session, lat: float, lon: float, radius_km: float
         if dist <= radius_km:
             result.append(r)
 
-    return result
+    # Apply pagination manually
+    return result[offset : offset + limit]
 
 def get_restaurants_by_cuisines_filtered(
     db: Session,
