@@ -41,8 +41,8 @@ A full-stack web application to explore, search, and filter restaurants using re
 1. **Clone the repo**
 
    ```bash
-   git clone <your-repo-url>
-   cd zomato-search-app
+   git clone <repo-url>
+   cd project_folder
    ```
 
 2. **Create virtual environment**
