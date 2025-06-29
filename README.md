@@ -95,3 +95,7 @@ A full-stack web application to explore, search, and filter restaurants using re
 └── README.md
 ```
 
+---
+
+## Quick Demo
+![Demo](./assets/demo.gif)
