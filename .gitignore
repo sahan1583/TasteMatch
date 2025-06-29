@@ -1,0 +1,10 @@
+
+venv/
+.venv/
+
+
+app/__pycache__/
+
+
+data/cuisine_embeddings.pt
+*.db 
