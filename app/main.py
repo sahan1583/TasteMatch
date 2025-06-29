@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, Query, Request
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
-
+from typing import Optional
 from app import models, schemas, crud
 from app.database import SessionLocal, engine
 
@@ -38,16 +38,9 @@ def home(
     request: Request,
     offset: int = 0,
     limit: int = 10,
-    country_code: int = Query(None),
-    max_cost: int = Query(None),
     db: Session = Depends(get_db)
 ):
     query = db.query(models.Restaurant)
-
-    if country_code:
-        query = query.filter(models.Restaurant.country_code == country_code)
-    if max_cost:
-        query = query.filter(models.Restaurant.average_cost_for_two <= max_cost)
 
     restaurants = query.offset(offset).limit(limit).all()
 
@@ -55,9 +48,7 @@ def home(
         "request": request,
         "restaurants": restaurants,
         "offset": offset,
-        "limit": limit,
-        "country_code": country_code,
-        "max_cost": max_cost
+        "limit": limit
     })
 
  
